@@ -2,7 +2,7 @@
 
 Monotone colorschemes for Neovim. Aesthetic inspiration from [U.S. Graphics Company](https://usgraphics.com) — thanks for the beautiful work.
 
-Seven variants, from phosphor CRTs to high contrast paper.
+Nine variants, from phosphor CRTs to high contrast paper.
 
 ## Themes
 
@@ -36,6 +36,16 @@ Deep red.
 High contrast terminal.
 
 ![mfd-paper](screenshots/mfd-paper.png)
+
+### mfd-hud
+Heads-up display.
+
+![mfd-hud](screenshots/mfd-hud.png)
+
+### mfd-nvg
+Night vision goggles.
+
+![mfd-nvg](screenshots/mfd-nvg.png)
 
 ## Installation
 
