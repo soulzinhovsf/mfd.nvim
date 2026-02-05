@@ -38,7 +38,7 @@ High contrast terminal.
 ![mfd-paper](screenshots/mfd-paper.png)
 
 ### mfd-hud
-Heads-up display symbology.
+Heads-up display.
 
 ![mfd-hud](screenshots/mfd-hud.png)
 
@@ -46,6 +46,11 @@ Heads-up display symbology.
 Night vision goggles.
 
 ![mfd-nvg](screenshots/mfd-nvg.png)
+
+### mfd-blackout
+Covert lighting conditions.
+
+![mfd-blackout](screenshots/mfd-blackout.png)
 
 ## Installation
 

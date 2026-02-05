@@ -169,4 +169,42 @@ function M.enable_cursor_sync()
   sync()
 end
 
+-- override icon colors for monotone consistency
+function M.override_icons(fg)
+  local function apply()
+    -- mini.icons
+    for _, color in ipairs({'Blue', 'Cyan', 'Green', 'Grey', 'Orange', 'Purple', 'Red', 'Yellow', 'Azure'}) do
+      vim.api.nvim_set_hl(0, 'MiniIcons' .. color, { fg = fg })
+    end
+    
+    -- nvim-tree
+    vim.api.nvim_set_hl(0, 'NvimTreeFolderIcon', { fg = fg })
+    vim.api.nvim_set_hl(0, 'NvimTreeOpenedFolderIcon', { fg = fg })
+    vim.api.nvim_set_hl(0, 'NvimTreeClosedFolderIcon', { fg = fg })
+    vim.api.nvim_set_hl(0, 'NvimTreeFileIcon', { fg = fg })
+    vim.api.nvim_set_hl(0, 'NvimTreeSpecialFile', { fg = fg })
+    vim.api.nvim_set_hl(0, 'NvimTreeImageFile', { fg = fg })
+    vim.api.nvim_set_hl(0, 'NvimTreeSymlink', { fg = fg })
+    
+    -- nvim-web-devicons
+    local ok, devicons = pcall(require, 'nvim-web-devicons')
+    if ok then
+      devicons.set_default_icon('', fg, 0)
+      for key, icon in pairs(devicons.get_icons()) do
+        pcall(devicons.set_icon, {
+          [key] = { icon = icon.icon, color = fg, name = icon.name }
+        })
+      end
+    end
+  end
+  
+  -- run now and deferred for load order
+  apply()
+  vim.api.nvim_create_autocmd('VimEnter', {
+    callback = function()
+      vim.schedule(apply)
+    end,
+  })
+end
+
 return M

@@ -1,19 +1,19 @@
--- MFD Mono: Classic P4 phosphor monochrome
--- Dark background with cool blue-white text (9300K)
+-- MFD Blackout: Ultra-low contrast, black on black
+-- Emergency lighting mode - just enough to see
 
 vim.cmd('highlight clear')
-vim.g.colors_name = 'mfd-mono'
+vim.g.colors_name = 'mfd-blackout'
 
 local c = {
-  bg       = '#08080C',  -- near black with cool tint
-  fg       = '#D0D0D8',  -- cool off-white
-  dim      = '#282830',  -- subtle gray (comments)
-  bright   = '#F0F0FF',  -- P4 phosphor white (emphasis)
-  subtle   = '#383840',  -- dark gray (line numbers)
-  visual   = '#1A1A22',  -- selection
-  cursor   = '#101014',  -- cursor line
-  border   = '#2A2A32',  -- window borders
-  float_bg = '#0C0C10',  -- floating windows
+  bg       = '#000000',  -- true black
+  fg       = '#24282C',  -- subtle cool - + blue
+  dim      = '#181C20',  -- comments, cool
+  bright   = '#24282C',  -- same as fg - uniform, decoration only
+  subtle   = '#0C0E10',  -- line numbers, nearly invisible
+  visual   = '#0C0E10',  -- selection, barely there
+  cursor   = '#080A0C',  -- cursor line
+  border   = '#101214',  -- window borders
+  float_bg = '#060808',  -- floating windows
 }
 
 local function hi(group, opts)
@@ -33,14 +33,14 @@ hi('lCursor',      { fg = c.bg, bg = c.bright })
 hi('CursorIM',     { fg = c.bg, bg = c.bright })
 hi('TermCursor',   { fg = c.bg, bg = c.bright })
 hi('TermCursorNC', { fg = c.bg, bg = c.dim })
-hi('CursorNormal',  { fg = c.bg, bg = '#D0D0D8' })  -- cool white, home base
-hi('CursorInsert',  { fg = c.bg, bg = '#F0F0FF' })  -- bright phosphor white, hot
-hi('CursorVisual',  { fg = c.bg, bg = '#9898A8' })  -- dimmed cool gray, selection
-hi('CursorReplace', { fg = c.bg, bg = '#E0E0E8' })  -- bright neutral, between normal/insert
-hi('CursorCommand', { fg = c.bg, bg = '#D0D0D8' })  -- same as normal
+hi('CursorNormal',  { fg = c.bg, bg = '#3A3A3A' })  -- dark gray
+hi('CursorInsert',  { fg = c.bg, bg = '#505050' })  -- slightly brighter
+hi('CursorVisual',  { fg = c.bg, bg = '#2A2A2A' })  -- darker for selection
+hi('CursorReplace', { fg = c.bg, bg = '#454545' })  -- between normal/insert
+hi('CursorCommand', { fg = c.bg, bg = '#3A3A3A' })  -- same as normal
 hi('CursorLine',   { bg = c.cursor })
 hi('CursorColumn', { bg = c.cursor })
-hi('LineNr',       { fg = c.subtle })
+hi('LineNr',       { fg = c.dim })
 hi('CursorLineNr', { fg = c.fg, bold = true })
 hi('SignColumn',   { bg = 'NONE' })
 hi('VertSplit',    { fg = c.border, bg = c.bg })
@@ -86,10 +86,10 @@ hi('SpellBad',     { undercurl = true, sp = c.fg })
 hi('SpellCap',     { undercurl = true, sp = c.dim })
 hi('SpellRare',    { undercurl = true, sp = c.dim })
 hi('SpellLocal',   { undercurl = true, sp = c.dim })
-hi('DiffAdd',      { bg = '#0A0A10' })
-hi('DiffChange',   { bg = '#0D0D12' })
-hi('DiffDelete',   { fg = c.dim, bg = '#100A0A' })
-hi('DiffText',     { bg = '#1A1A22', bold = true })
+hi('DiffAdd',      { bg = '#0A0D0A' })
+hi('DiffChange',   { bg = '#0D0D0D' })
+hi('DiffDelete',   { fg = c.dim, bg = '#0D0A0A' })
+hi('DiffText',     { bg = '#141414', bold = true })
 
 -- Syntax: monotone with decoration
 hi('Comment',      { fg = c.dim, italic = true })
@@ -272,8 +272,8 @@ hi('GitSignsDelete', { fg = c.bright })
 hi('GitSignsCurrentLineBlame', { fg = c.dim, italic = true })
 hi('GitSignsAddPreview',    { fg = c.fg, bg = c.cursor })
 hi('GitSignsDeletePreview', { fg = c.bright, bg = c.cursor })
-hi('GitSignsAddInline',     { bg = '#0A0A10' })
-hi('GitSignsDeleteInline',  { bg = '#100A0A' })
+hi('GitSignsAddInline',     { bg = '#0A0D0A' })
+hi('GitSignsDeleteInline',  { bg = '#0D0A0A' })
 hi('GitSignsChangeInline',  { bg = c.cursor })
 
 -- Telescope
@@ -359,6 +359,9 @@ hi('SnacksIndentScope',      { fg = c.dim })
 hi('FidgetTitle',  { fg = c.fg, bold = true })
 hi('FidgetTask',   { fg = c.dim, italic = true })
 
+-- monotone icons
+require('mfd').override_icons(c.fg)
+
 vim.g.terminal_color_0  = c.bg
 vim.g.terminal_color_1  = c.fg
 vim.g.terminal_color_2  = c.fg
@@ -375,6 +378,3 @@ vim.g.terminal_color_12 = c.fg
 vim.g.terminal_color_13 = c.fg
 vim.g.terminal_color_14 = c.fg
 vim.g.terminal_color_15 = c.bright
-
--- monotone icons (dimmed to match comments)
-require('mfd').override_icons(c.dim)
