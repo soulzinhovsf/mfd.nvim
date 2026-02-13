@@ -382,4 +382,4 @@ vim.g.terminal_color_14 = c.fg
 vim.g.terminal_color_15 = c.bright
 
 -- monotone icons (dimmed to match comments)
-require('mfd').override_icons(c.dim)
+require('mfd').override_icons(c.bright)
