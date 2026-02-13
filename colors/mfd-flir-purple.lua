@@ -1,5 +1,5 @@
--- MFD FLIR-RH: Red-hot thermal imaging
--- Greyscale base with heat sources bleeding red
+-- MFD FLIR-PURPLE: Purple imaging
+-- Greyscale base with purple spots
 
 vim.cmd('highlight clear')
 vim.g.colors_name = 'mfd-flir-purple'
