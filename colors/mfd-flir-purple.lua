@@ -5,7 +5,7 @@ vim.cmd('highlight clear')
 vim.g.colors_name = 'mfd-flir-purple'
 
 local c = {
-  bg       = '#181818',  -- dark grey, not black
+  bg       = '#0E0C0E',  -- dark grey, not black
   fg       = '#909090',  -- soft mid grey
   dim      = '#404040',  -- grey (comments)
   bright   = '#9f43ba',  -- red - thermal hot spots
