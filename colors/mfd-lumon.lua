@@ -1,19 +1,19 @@
--- MFD Stealth: Classic military CRT phosphor green
--- Near-black background with bright phosphor green text
+-- MFD: Lumon terminal (Severance) — cold cyan CRT
 
 vim.cmd('highlight clear')
-vim.g.colors_name = 'mfd-stealth'
+vim.g.colors_name = 'mfd-lumon'
 
 local c = {
-  bg       = '#0D1410',  -- near black with subtle green
-  fg       = '#7A9A7A',  -- muted sage green
-  dim      = '#253828',  -- subtle green (comments)
-  bright   = '#9ABB9A',  -- light sage (emphasis)
-  subtle   = '#2A3A2A',  -- dark muted green (line numbers)
-  visual   = '#1A2A1A',  -- selection
-  cursor   = '#151F18',  -- cursor line
-  border   = '#2A3A2A',  -- window borders
-  float_bg = '#101810',  -- floating windows
+  bg       = '#0A1520',  -- dark navy-black CRT
+  fg       = '#5AC8D8',  -- icy cyan
+  glow     = '#90F0FF',  -- phosphor glow (bold text)
+  dim      = '#1A3848',  -- muted teal (comments)
+  bright   = '#A0F0FF',  -- bright cyan (emphasis)
+  subtle   = '#143040',  -- deep teal (line numbers)
+  visual   = '#122838',  -- selection
+  cursor   = '#0E1E2C',  -- cursor line
+  border   = '#1A3848',  -- window borders
+  float_bg = '#0C1822',  -- floating windows
 }
 
 local mfd = require('mfd')
@@ -23,6 +23,11 @@ local comment = c.dim
 local no_italic = mfd.config.no_italic
 local function hi(group, opts)
   if no_italic then opts.italic = nil end
+
+  -- try to simulate a CRT glow by driving the FG harder when bold
+	-- (more surface area) is enabled 
+  if opts.bold and opts.fg == c.fg then opts.fg = c.glow end
+	
   vim.api.nvim_set_hl(0, group, opts)
 end
 
@@ -39,11 +44,11 @@ hi('lCursor',      { fg = c.bg, bg = c.bright })
 hi('CursorIM',     { fg = c.bg, bg = c.bright })
 hi('TermCursor',   { fg = c.bg, bg = c.bright })
 hi('TermCursorNC', { fg = c.bg, bg = c.dim })
-hi('CursorNormal',  { fg = c.bg, bg = '#7A9A7A' })  -- sage green, home base
-hi('CursorInsert',  { fg = c.bg, bg = '#B0D0B0' })  -- bright phosphor sage, hot
-hi('CursorVisual',  { fg = c.bg, bg = '#557755' })  -- darker green, selection
-hi('CursorReplace', { fg = c.bg, bg = '#95BB95' })  -- bright sage, between normal/insert
-hi('CursorCommand', { fg = c.bg, bg = '#7A9A7A' })  -- same as normal
+hi('CursorNormal',  { fg = c.bg, bg = c.fg })
+hi('CursorInsert',  { fg = c.bg, bg = c.bright })
+hi('CursorVisual',  { fg = c.bg, bg = '#3A8898' })
+hi('CursorReplace', { fg = c.bg, bg = c.glow })
+hi('CursorCommand', { fg = c.fg, bg = c.dim })
 hi('CursorLine',   { bg = c.cursor })
 hi('CursorColumn', { bg = c.cursor })
 hi('LineNr',       { fg = c.subtle })
@@ -80,7 +85,7 @@ hi('Whitespace',   { fg = c.subtle })
 hi('EndOfBuffer',  { fg = c.subtle })
 hi('Directory',    { fg = c.fg, bold = true })
 hi('Title',        { fg = c.fg, bold = true })
-hi('ErrorMsg',     { fg = c.bright, bg = c.bg, bold = true, underline = true })
+hi('ErrorMsg',     { fg = c.fg, bg = c.bg, bold = true, underline = true })
 hi('WarningMsg',   { fg = c.fg, bold = true })
 hi('MoreMsg',      { fg = c.fg, bold = true })
 hi('ModeMsg',      { fg = c.fg, bold = true })
@@ -92,10 +97,10 @@ hi('SpellBad',     { undercurl = true, sp = c.fg })
 hi('SpellCap',     { undercurl = true, sp = c.dim })
 hi('SpellRare',    { undercurl = true, sp = c.dim })
 hi('SpellLocal',   { undercurl = true, sp = c.dim })
-hi('DiffAdd',      { bg = '#0A1A0A' })
-hi('DiffChange',   { bg = '#0D1D0D' })
-hi('DiffDelete',   { fg = c.dim, bg = '#1A0A0A' })
-hi('DiffText',     { bg = '#1A2A1A', bold = true })
+hi('DiffAdd',      { bg = '#0A2838' })
+hi('DiffChange',   { bg = '#0E1E2C' })
+hi('DiffDelete',   { fg = c.dim, bg = '#1A1828' })
+hi('DiffText',     { bg = '#1A3848', bold = true })
 
 -- Syntax: monotone with decoration
 hi('Comment',      { fg = comment, italic = true })
@@ -131,7 +136,7 @@ hi('SpecialComment', { fg = comment, bold = true, italic = true })
 hi('Debug',        { fg = c.fg })
 hi('Underlined',   { fg = c.fg, underline = true })
 hi('Ignore',       { fg = c.subtle })
-hi('Error',        { fg = c.bright, bold = true, underline = true })
+hi('Error',        { fg = c.fg, bold = true, underline = true })
 hi('Todo',         { fg = c.bg, bg = c.fg, bold = true })
 
 -- Treesitter
@@ -209,7 +214,7 @@ hi('RenderMarkdownSuccess', { fg = c.fg })
 hi('RenderMarkdownInfo',    { fg = c.dim })
 hi('RenderMarkdownHint',    { fg = c.dim, italic = true })
 hi('RenderMarkdownWarn',    { fg = c.fg })
-hi('RenderMarkdownError',   { fg = c.bright, bold = true })
+hi('RenderMarkdownError',   { fg = c.fg, bold = true })
 hi('@markup.heading.1.markdown', { fg = c.bright, bold = true })
 hi('@markup.heading.2.markdown', { fg = c.bright, bold = true })
 hi('@markup.heading.3.markdown', { fg = c.fg, bold = true })
@@ -220,27 +225,27 @@ hi('@text.uri',           { fg = c.fg, underline = true })
 hi('@text.reference',     { fg = c.fg, italic = true })
 
 -- LSP Diagnostics
-hi('DiagnosticError',     { fg = c.bright, bold = true })
+hi('DiagnosticError',     { fg = c.fg, bold = true })
 hi('DiagnosticWarn',      { fg = c.fg })
 hi('DiagnosticInfo',      { fg = c.dim })
 hi('DiagnosticHint',      { fg = c.dim, italic = true })
 hi('DiagnosticOk',        { fg = c.dim })
-hi('DiagnosticUnderlineError', { undercurl = true, sp = c.bright })
-hi('DiagnosticUnderlineWarn',  { undercurl = true, sp = c.fg })
-hi('DiagnosticUnderlineInfo',  { undercurl = true, sp = c.dim })
-hi('DiagnosticUnderlineHint',  { undercurl = true, sp = c.dim })
-hi('DiagnosticUnderlineOk',    { undercurl = true, sp = c.dim })
-hi('DiagnosticVirtualTextError', { fg = c.bright, bg = c.cursor, bold = true })
+hi('DiagnosticUnderlineError', { undercurl = true, sp = c.fg })
+hi('DiagnosticUnderlineWarn',  { undercurl = true, sp = c.dim })
+hi('DiagnosticUnderlineInfo',  { undercurl = true, sp = c.subtle })
+hi('DiagnosticUnderlineHint',  { undercurl = true, sp = c.subtle })
+hi('DiagnosticUnderlineOk',    { undercurl = true, sp = c.subtle })
+hi('DiagnosticVirtualTextError', { fg = c.fg, bg = c.cursor, bold = true })
 hi('DiagnosticVirtualTextWarn',  { fg = c.fg, bg = c.cursor })
 hi('DiagnosticVirtualTextInfo',  { fg = c.dim, bg = c.cursor })
 hi('DiagnosticVirtualTextHint',  { fg = c.dim, bg = c.cursor, italic = true })
 hi('DiagnosticVirtualTextOk',    { fg = c.dim, bg = c.cursor })
-hi('DiagnosticFloatingError', { fg = c.bright, bold = true })
+hi('DiagnosticFloatingError', { fg = c.fg, bold = true })
 hi('DiagnosticFloatingWarn',  { fg = c.fg })
 hi('DiagnosticFloatingInfo',  { fg = c.dim })
 hi('DiagnosticFloatingHint',  { fg = c.dim, italic = true })
 hi('DiagnosticFloatingOk',    { fg = c.dim })
-hi('DiagnosticSignError', { fg = c.bright, bold = true })
+hi('DiagnosticSignError', { fg = c.fg, bold = true })
 hi('DiagnosticSignWarn',  { fg = c.fg })
 hi('DiagnosticSignInfo',  { fg = c.dim })
 hi('DiagnosticSignHint',  { fg = c.dim })
@@ -278,8 +283,8 @@ hi('GitSignsDelete', { fg = c.bright })
 hi('GitSignsCurrentLineBlame', { fg = c.dim, italic = true })
 hi('GitSignsAddPreview',    { fg = c.fg, bg = c.cursor })
 hi('GitSignsDeletePreview', { fg = c.bright, bg = c.cursor })
-hi('GitSignsAddInline',     { bg = '#0A1A0A' })
-hi('GitSignsDeleteInline',  { bg = '#1A0A0A' })
+hi('GitSignsAddInline',     { bg = '#0A2838' })
+hi('GitSignsDeleteInline',  { bg = '#1A1828' })
 hi('GitSignsChangeInline',  { bg = c.cursor })
 
 -- Telescope
@@ -365,22 +370,23 @@ hi('SnacksIndentScope',      { fg = c.dim })
 hi('FidgetTitle',  { fg = c.fg, bold = true })
 hi('FidgetTask',   { fg = c.dim, italic = true })
 
-vim.g.terminal_color_0  = c.bg
-vim.g.terminal_color_1  = c.fg
-vim.g.terminal_color_2  = c.fg
-vim.g.terminal_color_3  = c.fg
-vim.g.terminal_color_4  = c.fg
-vim.g.terminal_color_5  = c.fg
+-- Lumon data category colours hidden in terminal slots
+vim.g.terminal_color_0  = c.fg
+vim.g.terminal_color_1  = '#DD8899'  -- DR (pink)
+vim.g.terminal_color_2  = '#66DD88'  -- WO (green)
+vim.g.terminal_color_3  = '#E0BB55'  -- FC (gold)
+vim.g.terminal_color_4  = '#66CCEE'  -- MA (blue)
+vim.g.terminal_color_5  = '#DD8899'  -- DR (pink alt)
 vim.g.terminal_color_6  = c.fg
-vim.g.terminal_color_7  = c.fg
+vim.g.terminal_color_7  = c.subtle
 vim.g.terminal_color_8  = c.dim
-vim.g.terminal_color_9  = c.bright
-vim.g.terminal_color_10 = c.bright
-vim.g.terminal_color_11 = c.fg
-vim.g.terminal_color_12 = c.fg
-vim.g.terminal_color_13 = c.fg
+vim.g.terminal_color_9  = '#FFAACC'  -- DR bright
+vim.g.terminal_color_10 = '#88FFAA'  -- WO bright
+vim.g.terminal_color_11 = '#F0DD77'  -- FC bright
+vim.g.terminal_color_12 = '#88EEFF'  -- MA bright
+vim.g.terminal_color_13 = '#FFAACC'  -- DR bright alt
 vim.g.terminal_color_14 = c.fg
-vim.g.terminal_color_15 = c.bright
+vim.g.terminal_color_15 = c.bg
 
 -- monotone icons (dimmed to match comments)
 require('mfd').override_icons(c.dim)

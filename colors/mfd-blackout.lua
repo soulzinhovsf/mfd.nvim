@@ -16,12 +16,13 @@ local c = {
   float_bg = '#060808',  -- floating windows
 }
 
-local comment = c.dim
-if require('mfd').config.bright_comments then
-  comment = '#303438'
-end
+local mfd = require('mfd')
+c = mfd.compute_accessible_colors(c, mfd.get_contrast_level())
 
+local comment = c.dim
+local no_italic = mfd.config.no_italic
 local function hi(group, opts)
+  if no_italic then opts.italic = nil end
   vim.api.nvim_set_hl(0, group, opts)
 end
 
@@ -346,7 +347,7 @@ hi('SnacksPickerPreviewFooter', { fg = c.dim, bg = c.float_bg })
 hi('SnacksPickerList',       { fg = c.fg, bg = c.float_bg })
 hi('SnacksPickerListCursorLine', { bg = c.cursor })
 hi('SnacksPickerBorder',     { fg = c.dim, bg = c.float_bg })
-hi('SnacksPickerInputBorder', { fg = c.dim, bg = c.visual })
+hi('SnacksPickerInputBorder', { fg = c.dim, bg = c.float_bg })
 hi('SnacksPickerInputTitle', { fg = c.bg, bg = c.fg, bold = true })
 hi('SnacksPickerListTitle',  { fg = c.bg, bg = c.dim, bold = true })
 hi('SnacksPickerPreviewTitle', { fg = c.bg, bg = c.dim, bold = true })

@@ -11,17 +11,26 @@ local c = {
   bright   = '#0D1D0D',  -- near black (emphasis)
   subtle   = '#687858',  -- muted olive (line numbers)
   visual   = '#6A7B59',  -- selection (slightly darker than bg)
-  cursor   = '#6A7B59',  -- cursor line
+  cursor   = '#848F72',  -- cursor line (slightly lighter than bg)
   border   = '#5A6B4A',  -- window borders
   float_bg = '#5A6B4A',  -- floating windows
 }
 
-local comment = c.dim
-if require('mfd').config.bright_comments then
-  comment = '#354828'
+local cursor_dim = c.dim
+local mfd = require('mfd')
+c = mfd.compute_accessible_colors(c, mfd.get_contrast_level())
+
+-- on this mid-tone theme, fg goes dark at high contrast. the cursor block must
+-- contrast against both bg and the dark text inside it. use a light olive that
+-- stands out from the bg but lets dark text show through.
+if mfd.get_contrast_level() > 0 then
+  cursor_dim = '#B0BFA0'
 end
 
+local comment = c.dim
+local no_italic = mfd.config.no_italic
 local function hi(group, opts)
+  if no_italic then opts.italic = nil end
   vim.api.nvim_set_hl(0, group, opts)
 end
 
@@ -33,16 +42,16 @@ hi('FloatBorder',  { fg = c.dim, bg = c.float_bg })
 hi('FloatTitle',   { fg = c.fg, bg = c.float_bg, bold = true })
 hi('FloatShadow',  { bg = c.border, blend = 80 })
 hi('FloatShadowThrough', { bg = c.border, blend = 100 })
-hi('Cursor',       { fg = c.bg, bg = c.fg })
-hi('lCursor',      { fg = c.bg, bg = c.fg })
-hi('CursorIM',     { fg = c.bg, bg = c.fg })
-hi('TermCursor',   { fg = c.bg, bg = c.fg })
+hi('Cursor',       { fg = c.bg, bg = c.bright })
+hi('lCursor',      { fg = c.bg, bg = c.bright })
+hi('CursorIM',     { fg = c.bg, bg = c.bright })
+hi('TermCursor',   { fg = c.bg, bg = c.bright })
 hi('TermCursorNC', { fg = c.bg, bg = c.dim })
-hi('CursorNormal',  { fg = c.bg, bg = '#2A4A2A' })  -- saturated dark green
-hi('CursorInsert',  { fg = c.bg, bg = '#0D1D0D' })  -- near-black green, max contrast
-hi('CursorVisual',  { fg = c.bg, bg = '#3A5A3A' })  -- medium green, lifted
-hi('CursorReplace', { fg = c.bg, bg = '#1A3A1A' })  -- deep green, between normal/insert
-hi('CursorCommand', { fg = c.bg, bg = '#2A4A2A' })  -- same as normal
+hi('CursorNormal',  { fg = c.bg, bg = cursor_dim })
+hi('CursorInsert',  { fg = c.bg, bg = cursor_dim })
+hi('CursorVisual',  { fg = c.bg, bg = '#3A5A3A' })
+hi('CursorReplace', { fg = c.bg, bg = '#1A3A1A' })
+hi('CursorCommand', { fg = c.bg, bg = cursor_dim })
 hi('CursorLine',   { bg = c.cursor })
 hi('CursorColumn', { bg = c.cursor })
 hi('LineNr',       { fg = c.subtle })
@@ -346,7 +355,7 @@ hi('SnacksPickerPreviewFooter', { fg = c.dim, bg = c.float_bg })
 hi('SnacksPickerList',       { fg = c.fg, bg = c.float_bg })
 hi('SnacksPickerListCursorLine', { bg = c.cursor })
 hi('SnacksPickerBorder',     { fg = c.dim, bg = c.float_bg })
-hi('SnacksPickerInputBorder', { fg = c.dim, bg = c.visual })
+hi('SnacksPickerInputBorder', { fg = c.dim, bg = c.float_bg })
 hi('SnacksPickerInputTitle', { fg = c.bg, bg = c.fg, bold = true })
 hi('SnacksPickerListTitle',  { fg = c.bg, bg = c.dim, bold = true })
 hi('SnacksPickerPreviewTitle', { fg = c.bg, bg = c.dim, bold = true })

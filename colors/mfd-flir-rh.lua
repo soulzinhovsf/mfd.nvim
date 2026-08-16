@@ -16,12 +16,13 @@ local c = {
   float_bg = '#1C1C1C',  -- floating windows
 }
 
-local comment = c.dim
-if require('mfd').config.bright_comments then
-  comment = '#707070'
-end
+local mfd = require('mfd')
+c = mfd.compute_accessible_colors(c, mfd.get_contrast_level())
 
+local comment = c.dim
+local no_italic = mfd.config.no_italic
 local function hi(group, opts)
+  if no_italic then opts.italic = nil end
   vim.api.nvim_set_hl(0, group, opts)
 end
 
@@ -33,16 +34,16 @@ hi('FloatBorder',  { fg = c.dim, bg = c.float_bg })
 hi('FloatTitle',   { fg = c.fg, bg = c.float_bg, bold = true })
 hi('FloatShadow',  { bg = c.border, blend = 80 })
 hi('FloatShadowThrough', { bg = c.border, blend = 100 })
-hi('Cursor',       { fg = c.bg, bg = c.fg })
-hi('lCursor',      { fg = c.bg, bg = c.fg })
-hi('CursorIM',     { fg = c.bg, bg = c.fg })
-hi('TermCursor',   { fg = c.bg, bg = c.fg })
+hi('Cursor',       { fg = c.bg, bg = c.bright })
+hi('lCursor',      { fg = c.bg, bg = c.bright })
+hi('CursorIM',     { fg = c.bg, bg = c.bright })
+hi('TermCursor',   { fg = c.bg, bg = c.bright })
 hi('TermCursorNC', { fg = c.bg, bg = c.dim })
-hi('CursorNormal',  { fg = c.bg, bg = '#909090' })
+hi('CursorNormal',  { fg = c.bg, bg = '#C0C0C0' })
 hi('CursorInsert',  { fg = c.bg, bg = '#C03838' })
 hi('CursorVisual',  { fg = c.bg, bg = '#686868' })
 hi('CursorReplace', { fg = c.bg, bg = '#903838' })
-hi('CursorCommand', { fg = c.bg, bg = '#909090' })
+hi('CursorCommand', { fg = c.bg, bg = '#C0C0C0' })
 hi('CursorLine',   { bg = c.cursor })
 hi('CursorColumn', { bg = c.cursor })
 hi('LineNr',       { fg = c.subtle })
@@ -346,7 +347,7 @@ hi('SnacksPickerPreviewFooter', { fg = c.dim, bg = c.float_bg })
 hi('SnacksPickerList',       { fg = c.fg, bg = c.float_bg })
 hi('SnacksPickerListCursorLine', { bg = c.cursor })
 hi('SnacksPickerBorder',     { fg = c.dim, bg = c.float_bg })
-hi('SnacksPickerInputBorder', { fg = c.dim, bg = c.visual })
+hi('SnacksPickerInputBorder', { fg = c.dim, bg = c.float_bg })
 hi('SnacksPickerInputTitle', { fg = c.bg, bg = c.fg, bold = true })
 hi('SnacksPickerListTitle',  { fg = c.bg, bg = c.dim, bold = true })
 hi('SnacksPickerPreviewTitle', { fg = c.bg, bg = c.dim, bold = true })

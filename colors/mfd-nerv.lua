@@ -1,19 +1,19 @@
--- MFD Stealth: Classic military CRT phosphor green
--- Near-black background with bright phosphor green text
+-- MFD NERV: Evangelion NERV terminal display
+-- Hot orange phosphor with warm bleed - inspired by NERV HQ interfaces
 
 vim.cmd('highlight clear')
-vim.g.colors_name = 'mfd-stealth'
+vim.g.colors_name = 'mfd-nerv'
 
 local c = {
-  bg       = '#0D1410',  -- near black with subtle green
-  fg       = '#7A9A7A',  -- muted sage green
-  dim      = '#253828',  -- subtle green (comments)
-  bright   = '#9ABB9A',  -- light sage (emphasis)
-  subtle   = '#2A3A2A',  -- dark muted green (line numbers)
-  visual   = '#1A2A1A',  -- selection
-  cursor   = '#151F18',  -- cursor line
-  border   = '#2A3A2A',  -- window borders
-  float_bg = '#101810',  -- floating windows
+  bg       = '#1A0A02',  -- dark with heavy orange bleed
+  fg       = '#EE8822',  -- hot fire orange
+  dim      = '#6B3510',  -- deep orange (comments)
+  bright   = '#FFAA44',  -- bright orange (emphasis)
+  subtle   = '#4A2008',  -- dark warm (line numbers)
+  visual   = '#2A1208',  -- selection
+  cursor   = '#221005',  -- cursor line
+  border   = '#4A2008',  -- window borders
+  float_bg = '#180A02',  -- floating windows
 }
 
 local mfd = require('mfd')
@@ -23,6 +23,7 @@ local comment = c.dim
 local no_italic = mfd.config.no_italic
 local function hi(group, opts)
   if no_italic then opts.italic = nil end
+
   vim.api.nvim_set_hl(0, group, opts)
 end
 
@@ -39,11 +40,11 @@ hi('lCursor',      { fg = c.bg, bg = c.bright })
 hi('CursorIM',     { fg = c.bg, bg = c.bright })
 hi('TermCursor',   { fg = c.bg, bg = c.bright })
 hi('TermCursorNC', { fg = c.bg, bg = c.dim })
-hi('CursorNormal',  { fg = c.bg, bg = '#7A9A7A' })  -- sage green, home base
-hi('CursorInsert',  { fg = c.bg, bg = '#B0D0B0' })  -- bright phosphor sage, hot
-hi('CursorVisual',  { fg = c.bg, bg = '#557755' })  -- darker green, selection
-hi('CursorReplace', { fg = c.bg, bg = '#95BB95' })  -- bright sage, between normal/insert
-hi('CursorCommand', { fg = c.bg, bg = '#7A9A7A' })  -- same as normal
+hi('CursorNormal',  { fg = c.bg, bg = '#EE8822' })  -- hot orange, home base
+hi('CursorInsert',  { fg = c.bg, bg = '#44CCCC' })  -- cyan accent (NERV display highlight)
+hi('CursorVisual',  { fg = c.bg, bg = '#CC6600' })  -- deep orange, selection
+hi('CursorReplace', { fg = c.bg, bg = '#FF6644' })  -- red-orange, urgent
+hi('CursorCommand', { fg = c.bg, bg = '#EE8822' })  -- same as normal
 hi('CursorLine',   { bg = c.cursor })
 hi('CursorColumn', { bg = c.cursor })
 hi('LineNr',       { fg = c.subtle })
@@ -92,10 +93,10 @@ hi('SpellBad',     { undercurl = true, sp = c.fg })
 hi('SpellCap',     { undercurl = true, sp = c.dim })
 hi('SpellRare',    { undercurl = true, sp = c.dim })
 hi('SpellLocal',   { undercurl = true, sp = c.dim })
-hi('DiffAdd',      { bg = '#0A1A0A' })
-hi('DiffChange',   { bg = '#0D1D0D' })
-hi('DiffDelete',   { fg = c.dim, bg = '#1A0A0A' })
-hi('DiffText',     { bg = '#1A2A1A', bold = true })
+hi('DiffAdd',      { bg = '#1A1808' })
+hi('DiffChange',   { bg = '#1A1208' })
+hi('DiffDelete',   { fg = c.dim, bg = '#1A0808' })
+hi('DiffText',     { bg = '#2A1810', bold = true })
 
 -- Syntax: monotone with decoration
 hi('Comment',      { fg = comment, italic = true })
@@ -107,13 +108,13 @@ hi('Boolean',      { fg = c.fg, bold = true })
 hi('Float',        { fg = c.fg })
 hi('Identifier',   { fg = c.fg })
 hi('Function',     { fg = c.fg, bold = true })
-hi('Statement',    { fg = c.bright, bold = true })
-hi('Conditional',  { fg = c.bright, bold = true })
-hi('Repeat',       { fg = c.bright, bold = true })
+hi('Statement',    { fg = c.fg, bold = true })
+hi('Conditional',  { fg = c.fg, bold = true })
+hi('Repeat',       { fg = c.fg, bold = true })
 hi('Label',        { fg = c.fg, bold = true })
 hi('Operator',     { fg = c.fg })
-hi('Keyword',      { fg = c.bright, bold = true })
-hi('Exception',    { fg = c.bright, bold = true })
+hi('Keyword',      { fg = c.fg, bold = true })
+hi('Exception',    { fg = c.fg, bold = true })
 hi('PreProc',      { fg = c.fg, bold = true })
 hi('Include',      { fg = c.fg, bold = true })
 hi('Define',       { fg = c.fg, bold = true })
@@ -158,13 +159,13 @@ hi('@function.macro',     { fg = c.fg, bold = true })
 hi('@method',             { fg = c.fg, bold = true })
 hi('@method.call',        { fg = c.fg })
 hi('@constructor',        { fg = c.fg, bold = true })
-hi('@keyword',            { fg = c.bright, bold = true })
-hi('@keyword.function',   { fg = c.bright, bold = true })
+hi('@keyword',            { fg = c.fg, bold = true })
+hi('@keyword.function',   { fg = c.fg, bold = true })
 hi('@keyword.operator',   { fg = c.fg })
-hi('@keyword.return',     { fg = c.bright, bold = true })
-hi('@conditional',        { fg = c.bright, bold = true })
-hi('@repeat',             { fg = c.bright, bold = true })
-hi('@exception',          { fg = c.bright, bold = true })
+hi('@keyword.return',     { fg = c.fg, bold = true })
+hi('@conditional',        { fg = c.fg, bold = true })
+hi('@repeat',             { fg = c.fg, bold = true })
+hi('@exception',          { fg = c.fg, bold = true })
 hi('@include',            { fg = c.fg, bold = true })
 hi('@type',               { fg = c.fg, underline = true })
 hi('@type.builtin',       { fg = c.fg, underline = true })
@@ -192,12 +193,12 @@ hi('@text.strike',        { fg = c.fg, strikethrough = true })
 hi('@text.title',         { fg = c.fg, bold = true })
 
 -- Markdown headings (render-markdown.nvim)
-hi('RenderMarkdownH1',    { fg = c.bright, bold = true })
-hi('RenderMarkdownH2',    { fg = c.bright, bold = true })
+hi('RenderMarkdownH1',    { fg = c.fg, bold = true })
+hi('RenderMarkdownH2',    { fg = c.fg, bold = true })
 hi('RenderMarkdownH3',    { fg = c.fg, bold = true })
 hi('RenderMarkdownH4',    { fg = c.fg, bold = true })
-hi('RenderMarkdownH1Bg',  { fg = c.bright, bold = true })
-hi('RenderMarkdownH2Bg',  { fg = c.bright, bold = true })
+hi('RenderMarkdownH1Bg',  { fg = c.fg, bold = true })
+hi('RenderMarkdownH2Bg',  { fg = c.fg, bold = true })
 hi('RenderMarkdownH3Bg',  { fg = c.fg, bold = true })
 hi('RenderMarkdownH4Bg',  { fg = c.fg, bold = true })
 hi('RenderMarkdownCode',  { bg = c.visual })
@@ -209,9 +210,9 @@ hi('RenderMarkdownSuccess', { fg = c.fg })
 hi('RenderMarkdownInfo',    { fg = c.dim })
 hi('RenderMarkdownHint',    { fg = c.dim, italic = true })
 hi('RenderMarkdownWarn',    { fg = c.fg })
-hi('RenderMarkdownError',   { fg = c.bright, bold = true })
-hi('@markup.heading.1.markdown', { fg = c.bright, bold = true })
-hi('@markup.heading.2.markdown', { fg = c.bright, bold = true })
+hi('RenderMarkdownError',   { fg = c.fg, bold = true })
+hi('@markup.heading.1.markdown', { fg = c.fg, bold = true })
+hi('@markup.heading.2.markdown', { fg = c.fg, bold = true })
 hi('@markup.heading.3.markdown', { fg = c.fg, bold = true })
 hi('@markup.heading.4.markdown', { fg = c.fg, bold = true })
 hi('@markup.raw.markdown_inline', { bg = c.visual })
@@ -220,7 +221,7 @@ hi('@text.uri',           { fg = c.fg, underline = true })
 hi('@text.reference',     { fg = c.fg, italic = true })
 
 -- LSP Diagnostics
-hi('DiagnosticError',     { fg = c.bright, bold = true })
+hi('DiagnosticError',     { fg = c.fg, bold = true })
 hi('DiagnosticWarn',      { fg = c.fg })
 hi('DiagnosticInfo',      { fg = c.dim })
 hi('DiagnosticHint',      { fg = c.dim, italic = true })
@@ -235,12 +236,12 @@ hi('DiagnosticVirtualTextWarn',  { fg = c.fg, bg = c.cursor })
 hi('DiagnosticVirtualTextInfo',  { fg = c.dim, bg = c.cursor })
 hi('DiagnosticVirtualTextHint',  { fg = c.dim, bg = c.cursor, italic = true })
 hi('DiagnosticVirtualTextOk',    { fg = c.dim, bg = c.cursor })
-hi('DiagnosticFloatingError', { fg = c.bright, bold = true })
+hi('DiagnosticFloatingError', { fg = c.fg, bold = true })
 hi('DiagnosticFloatingWarn',  { fg = c.fg })
 hi('DiagnosticFloatingInfo',  { fg = c.dim })
 hi('DiagnosticFloatingHint',  { fg = c.dim, italic = true })
 hi('DiagnosticFloatingOk',    { fg = c.dim })
-hi('DiagnosticSignError', { fg = c.bright, bold = true })
+hi('DiagnosticSignError', { fg = c.fg, bold = true })
 hi('DiagnosticSignWarn',  { fg = c.fg })
 hi('DiagnosticSignInfo',  { fg = c.dim })
 hi('DiagnosticSignHint',  { fg = c.dim })
@@ -265,7 +266,7 @@ hi('@lsp.type.variable',      { fg = c.fg })
 hi('@lsp.type.property',      { fg = c.fg })
 hi('@lsp.type.function',      { fg = c.fg, bold = true })
 hi('@lsp.type.method',        { fg = c.fg, bold = true })
-hi('@lsp.type.keyword',       { fg = c.bright, bold = true })
+hi('@lsp.type.keyword',       { fg = c.fg, bold = true })
 hi('@lsp.type.namespace',     { fg = c.fg })
 hi('@lsp.type.type',          { fg = c.fg, underline = true })
 hi('@lsp.type.typeParameter', { fg = c.fg, italic = true })
@@ -278,8 +279,8 @@ hi('GitSignsDelete', { fg = c.bright })
 hi('GitSignsCurrentLineBlame', { fg = c.dim, italic = true })
 hi('GitSignsAddPreview',    { fg = c.fg, bg = c.cursor })
 hi('GitSignsDeletePreview', { fg = c.bright, bg = c.cursor })
-hi('GitSignsAddInline',     { bg = '#0A1A0A' })
-hi('GitSignsDeleteInline',  { bg = '#1A0A0A' })
+hi('GitSignsAddInline',     { bg = '#1A1808' })
+hi('GitSignsDeleteInline',  { bg = '#1A0808' })
 hi('GitSignsChangeInline',  { bg = c.cursor })
 
 -- Telescope
